@@ -2,7 +2,7 @@ NAME = game
 
 CXX = c++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS = -std=c++17
 
 SRC =	main.cpp \
 		srcs/player/Player.cpp
@@ -11,24 +11,30 @@ OBJ = $(SRC:.cpp=.o)
 
 INCLUDES =	-Iincludes \
 			-Iincludes/Player \
-			-Iincludes/raylib
+			-Iincludes/raylib/src
 
-RAYLIB = ./raylib/src/libraylib.a
+RAYLIB = ./includes/raylib/src/libraylib.a
 
-LIBS = -L./raylib/src \
+LIBS = -L./includes/raylib/src \
 	-lraylib \
 	-lGL \
-	-llm \
+	-lm \
 	-lpthread \
 	-ldl \
 	-lrt \
 	-lX11
 
-$(NAME): $(OBJ)
-	$(CXX) $(CXXFLAGS) $(OBJ) $(INCLUDES) $(RAYLIB) $(LIBS) -o $(NAME)
+$(NAME): $(OBJ) $(RAYLIB)
+	$(CXX) $(CXXFLAGS) $(OBJ) $(INCLUDES) $(LIBS) -o $(NAME)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+$(RAYLIB):
+	make -C includes/raylib/src
+
+raylib:
+	make -C includes/raylib/src
 
 all: $(NAME)
 
@@ -40,4 +46,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re raylib
