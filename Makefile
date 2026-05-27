@@ -2,18 +2,23 @@ NAME = game
 
 CXX = c++
 
-CXXFLAGS = -std=c++17
+CXXFLAGS = -std=c++17 -g
 
 SRC =	main.cpp \
 		srcs/Player/Player.cpp \
-		srcs/Game/Game.cpp
+		srcs/Game/Game.cpp \
+		srcs/Map/Tile.cpp \
+		srcs/Map/Chunk.cpp \
+		srcs/Map/Map.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
 INCLUDES =	-Iincludes \
 			-Iincludes/Player \
 			-Iincludes/Game \
-			-Iincludes/raylib/src
+			-Iincludes/Map \
+			-Iincludes/raylib/src \
+			-Iincludes/FastNoiseLite/Cpp
 
 RAYLIB = ./includes/raylib/src/libraylib.a
 

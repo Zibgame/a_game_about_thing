@@ -16,10 +16,13 @@ class Player
         ~Player();
 
     private:
-        double _x;
-        double _y;
+        int     _ChunkX;
+        int     _ChunkY;
 
-        double _scale;
+        double  _x;
+        double  _y;
 
-        Texture2D _texture;
+        double  _scale;
+
+        Texture2D   _texture;
 };

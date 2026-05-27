@@ -1,7 +1,14 @@
 #include "Game.hpp"
-#include <iostream>
 
-Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Player(width / 2, height / 2) , _fps(244)
+Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Map(1337, 4), _Player(width / 2, height / 2) , _fps(244)
+{
+    SetTargetFPS(_fps);
+    GameInitWindow();
+    _Player.loadTexture();
+    _Map.CreateMap();
+}
+
+Game::Game(int height, int width, int seed) : _WinWidth(width), _WinHeight(height), _Map(seed, 4), _Player(width / 2, height / 2) , _fps(244)
 {
     SetTargetFPS(_fps);
     GameInitWindow();
