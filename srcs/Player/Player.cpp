@@ -8,8 +8,15 @@ Player::Player(double x, double y)
 	_texture = LoadTexture("assets/Player/player.png");
 }
 
+void	Player::loadTexture()
+{
+	_texture = LoadTexture("assets/Player/player.png");
+}
+
 void	Player::draw() const
 {
+	if (!_texture.id)
+		return ;
 	Rectangle	src;
 	Rectangle	dest;
 	Vector2		origin;
@@ -39,5 +46,6 @@ void	Player::draw() const
 
 Player::~Player()
 {
-	UnloadTexture(_texture);
+	if (_texture.id)
+		UnloadTexture(_texture);
 }
