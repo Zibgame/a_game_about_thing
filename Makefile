@@ -2,43 +2,42 @@ NAME = game
 
 CXX = c++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-RAYLIB_DIR = includes/raylib/src
+SRC =	main.cpp \
+		srcs/player/Player.cpp
+
+OBJ = $(SRC:.cpp=.o)
 
 INCLUDES =	-Iincludes \
 			-Iincludes/Player \
-			-I$(RAYLIB_DIR)
+			-Iincludes/raylib
 
-LIBS =	$(RAYLIB_DIR)/libraylib.a \
-		-ldl \
-		-lpthread \
-		-lm \
-		-lX11
+RAYLIB = ./raylib/src/libraylib.a
 
-SRCS =	main.cpp \
-		srcs/player/Player.cpp
+LIBS = -L./raylib/src \
+	-lraylib \
+	-lGL \
+	-llm \
+	-lpthread \
+	-ldl \
+	-lrt \
+	-lX11
 
-OBJS = $(SRCS:.cpp=.o)
-
-all: raylib $(NAME)
-
-raylib:
-	make -C $(RAYLIB_DIR) PLATFORM=PLATFORM_DESKTOP GLFW_LINUX_ENABLE_WAYLAND=OFF
-
-$(NAME): $(OBJS)
-	$(CXX) $(OBJS) $(LIBS) -o $(NAME)
+$(NAME): $(OBJ)
+	$(CXX) $(CXXFLAGS) $(OBJ) $(INCLUDES) $(RAYLIB) $(LIBS) -o $(NAME)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
+all: $(NAME)
+
 clean:
-	make -C $(RAYLIB_DIR) clean
-	rm -f $(OBJS)
+	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re raylib
+.PHONY: all clean fclean re
