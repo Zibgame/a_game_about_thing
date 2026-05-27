@@ -5,7 +5,7 @@ CXX = c++
 CXXFLAGS = -std=c++17
 
 SRC =	main.cpp \
-		srcs/player/Player.cpp
+		srcs/Player/Player.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

@@ -1,8 +1,10 @@
 #include "raylib.h"
 #include "Player.hpp"
+#include "Game.hpp"
 
 int	main(void)
 {
-    InitWindow(800, 600, "A game about thing");
+    Game game(800, 600);
+    game.launchGame();
 	return (0);
 }
