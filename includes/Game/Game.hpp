@@ -15,6 +15,7 @@ class Game
 		
 		int		_WinWidth;
 		int		_WinHeight;
+		int		_fps;
 		
 		Player	_Player;
 		

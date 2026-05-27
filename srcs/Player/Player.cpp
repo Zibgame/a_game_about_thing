@@ -4,7 +4,7 @@ Player::Player(double x, double y)
 {
 	_x = x;
 	_y = y;
-	_scale = 1;
+	_scale = 1.0f;
 	_texture = LoadTexture("assets/Player/player.png");
 }
 
@@ -44,8 +44,30 @@ void	Player::draw() const
 	);
 }
 
+void	Player::Move(double x, double y)
+{
+	_x += x;
+	_y += y;
+}
+
 Player::~Player()
 {
 	if (_texture.id)
 		UnloadTexture(_texture);
+}
+
+void    Player::Update(void)
+{
+	double	delta;
+
+	delta = GetFrameTime();
+
+	if (IsKeyDown(KEY_D))
+		Move(SPEED * delta, 0);
+	if (IsKeyDown(KEY_A))
+		Move(-SPEED * delta, 0);
+	if (IsKeyDown(KEY_W))
+		Move(0, -SPEED * delta);
+	if (IsKeyDown(KEY_S))
+		Move(0, SPEED * delta);
 }

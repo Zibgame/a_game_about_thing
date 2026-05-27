@@ -1,8 +1,9 @@
 #include "Game.hpp"
 #include <iostream>
 
-Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Player(width / 2, height / 2)
+Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Player(width / 2, height / 2) , _fps(244)
 {
+    SetTargetFPS(_fps);
     GameInitWindow();
     _Player.loadTexture();
 }
@@ -45,8 +46,12 @@ bool Game::MainLoop(void)
 {
     while (true)
     {
+        if (IsKeyDown(KEY_ESCAPE))
+            break ;
+
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        _Player.Update();
         _Player.draw();
         EndDrawing();
     }
