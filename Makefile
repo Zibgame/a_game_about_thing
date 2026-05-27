@@ -5,12 +5,14 @@ CXX = c++
 CXXFLAGS = -std=c++17
 
 SRC =	main.cpp \
-		srcs/Player/Player.cpp
+		srcs/Player/Player.cpp \
+		srcs/Game/Game.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
 INCLUDES =	-Iincludes \
 			-Iincludes/Player \
+			-Iincludes/Game \
 			-Iincludes/raylib/src
 
 RAYLIB = ./includes/raylib/src/libraylib.a

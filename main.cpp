@@ -5,6 +5,6 @@
 int	main(void)
 {
     Game game(800, 600);
-    game.launchGame();
+    game.LaunchGame();
 	return (0);
 }

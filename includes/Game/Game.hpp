@@ -9,7 +9,7 @@ class Game
 		Game(int height, int width);
 		~Game();
 
-		LaunchGame();
+		bool	LaunchGame();
 		
 	private:
 		
@@ -18,7 +18,8 @@ class Game
 		
 		Player	_Player;
 		
-		InitGame();
-		InitWindow();
-		InitTexture();
-}
+		bool	InitGame();
+		bool	MainLoop();
+		bool	InitTexture();
+		bool	GameInitWindow();
+};

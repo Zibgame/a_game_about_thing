@@ -1,10 +1,8 @@
 #include "Game.hpp"
 #include <iostream>
 
-Game::Game(int height, int width)
+Game::Game(int height, int width) : _WinWidth(width), _WinHeight(height), _Player(width / 2, height / 2)
 {
-    _WinHeight = height;
-    _WinWidth = width;
 }
 
 Game::~Game(void)
@@ -12,23 +10,46 @@ Game::~Game(void)
     
 }
 
-Game::InitGame(void)
+bool Game::InitGame(void)
 {
     InitTexture();
-    InitWindow();
+    GameInitWindow();
+    return true;
 }
 
-Game::InitWindow(void)
+bool Game::GameInitWindow(void)
 {
-    std::cout << "Window init\n"; 
+    std::cout << "Window init\n";
+    InitWindow(_WinWidth, _WinHeight, "A game about thing");
+    return true;
 }
 
-Game::InitTexture(void)
+bool Game::InitTexture(void)
 {
     std::cout << "Texture init\n";
+    return true;
 }
 
-Game::LaunchGame(void)
+bool Game::LaunchGame(void)
 {
     std::cout << "Launching Game\n";
+
+    // InitTexture();
+    GameInitWindow();
+    MainLoop();
+    return true;
+}
+
+bool Game::MainLoop(void)
+{
+    while (true)
+    {
+        if (WindowShouldClose())
+            break ;
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+        _Player.draw();
+        EndDrawing();
+    }
+    return true;
 }
