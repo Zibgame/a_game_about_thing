@@ -47,6 +47,8 @@ void	Player::Move(float x, float y)
 {
 	_x += x;
 	_y += y;
+	_TileX = _x / 126;
+	_TileY = _y / 126;
 	_Camera.update(Vector2{_x, _y});
 }
 

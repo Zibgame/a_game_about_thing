@@ -24,6 +24,11 @@ class Map
         void    DrawMap();
         void	InitTexture();
 
+        void    NewRowLeft(int playerSpawnTileX, int playerSpawnTileY);
+        void    NewRowRight();
+        void    NewLineTop();
+        void    NewLineBottom();
+
     private:
 
         int _OffsetX;
@@ -37,6 +42,6 @@ class Map
 
         std::vector<Texture2D>   _GroundTextures;
 
-        void   CreateChunk(const std::vector<float> &TileValues);
+        void   CreateChunk(int x, int y, const std::vector<float> &TileValues);
 
 };

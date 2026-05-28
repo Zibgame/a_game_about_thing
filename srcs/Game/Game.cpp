@@ -7,7 +7,7 @@ Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Map(1
     _Player.loadTexture();
     _Map.InitTexture();
     _Map.CreateMap(_Player.getTileX(), _Player.getTileY());
-    _Player.Move(2.5 * CHUNK_SIZE * 126, 2.5 * CHUNK_SIZE * 126);
+    // _Player.Move(2.5 * CHUNK_SIZE * 126, 2.5 * CHUNK_SIZE * 126);
 }
 
 Game::Game(int height, int width, int seed) : _WinWidth(width), _WinHeight(height), _Map(seed, 5), _Player(width / 2, height / 2) , _fps(244)

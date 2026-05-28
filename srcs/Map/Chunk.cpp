@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-Chunk::Chunk(void)
+Chunk::Chunk(int x, int y) : _ChunkX(x), _ChunkY(y)
 {
 
 }
@@ -50,7 +50,7 @@ void    Chunk::SetTile(int x, int y, char biome, short obstacle)
         _TileMap.insert(_TileMap.begin()+index, newTile);
 }
 
-void    Chunk::DrawChunk(int startX, int startY, std::vector<Texture2D> &_GroundTextures)
+void    Chunk::DrawChunk(std::vector<Texture2D> &_GroundTextures)
 {
     for (int y = 0; y < CHUNK_SIZE; y++)
     {
@@ -70,8 +70,8 @@ void    Chunk::DrawChunk(int startX, int startY, std::vector<Texture2D> &_Ground
             src.width = _GroundTextures[Id].width;
             src.height = _GroundTextures[Id].height;
 
-            dest.x = x * 126 + startX;
-            dest.y = y * 126 + startY;
+            dest.x = _ChunkX * CHUNK_SIZE * 126 + x * 126;
+            dest.y = _ChunkY * CHUNK_SIZE * 126 + y * 126;
             dest.width = _GroundTextures[Id].width * Scale;
             dest.height = _GroundTextures[Id].height * Scale;
 
