@@ -17,9 +17,8 @@ INCLUDES =	-Iincludes \
 			-Iincludes/Player \
 			-Iincludes/Game \
 			-Iincludes/Map \
-			-Iincludes/raylib/src \
-			-Iincludes/FastNoiseLite/Cpp
-
+			-Iincludes/raylib/src 
+			
 RAYLIB = ./includes/raylib/src/libraylib.a
 
 LIBS = -L./includes/raylib/src \
