@@ -1,10 +1,7 @@
 #include "Player.hpp"
 
-Player::Player(double x, double y)
+Player::Player(float x, float y) : _x(x), _y(y), _scale(1.0f), _Camera(Vector2{0, 0})
 {
-	_x = x;
-	_y = y;
-	_scale = 1.0f;
 	_texture = LoadTexture("assets/Player/player.png");
 }
 
@@ -44,10 +41,16 @@ void	Player::draw() const
 	);
 }
 
-void	Player::Move(double x, double y)
+void	Player::Move(float x, float y)
 {
 	_x += x;
 	_y += y;
+	_Camera.update(Vector2{_x, _y});
+}
+
+Camera2D    Player::getCamera(void)
+{
+	return (_Camera.get_camera());
 }
 
 Player::~Player()

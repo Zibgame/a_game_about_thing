@@ -4,7 +4,6 @@ Map::Map(int seed, int renderDistance) : _Seed(seed), _RenderDistance(renderDist
 {
     _NoiseGenerator.SetSeed(_Seed);
     _NoiseGenerator.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
-    // _NoiseGenerator.SetNoiseType(FastNoiseLite::NoiseType_Cellular);
     _NoiseGenerator.SetCellularReturnType(FastNoiseLite::CellularReturnType_CellValue);
 }
 
@@ -47,7 +46,7 @@ void    Map::DrawMap(void)
     {
         for (int x = 0; x < _RenderDistance; x++)
         {
-            _Map[y * _RenderDistance + x]->DrawChunk(x * CHUNK_SIZE * 8, y * CHUNK_SIZE * 8, _GroundTextures);
+            _Map[y * _RenderDistance + x]->DrawChunk(x * CHUNK_SIZE * 126, y * CHUNK_SIZE * 126, _GroundTextures);
         }
     }
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "raylib.h"
+#include "camera.hpp"
 #include <iostream>
 
 #define SPEED 500.0
@@ -8,21 +9,23 @@
 class Player
 {
     public:
-        Player(double x, double y);
-        void	draw() const;
-        void	loadTexture();
-        void	Move(double x, double y);
-        void    Update(void);
+        Player(float x, float y);
+        void	    draw() const;
+        void	    loadTexture();
+        void	    Move(float x, float y);
+        void        Update(void);
+        Camera2D    getCamera(void);
         ~Player();
 
     private:
         int     _ChunkX;
         int     _ChunkY;
 
-        double  _x;
-        double  _y;
+        float  _x;
+        float  _y;
 
-        double  _scale;
+        float  _scale;
 
+        camera      _Camera;
         Texture2D   _texture;
 };

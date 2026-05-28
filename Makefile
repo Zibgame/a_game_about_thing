@@ -6,6 +6,7 @@ CXXFLAGS = -std=c++17 -g
 
 SRC =	main.cpp \
 		srcs/Player/Player.cpp \
+		srcs/Player/camera.cpp \
 		srcs/Game/Game.cpp \
 		srcs/Map/Tile.cpp \
 		srcs/Map/Chunk.cpp \

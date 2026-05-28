@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Map(15141, 6), _Player(width / 2, height / 2) , _fps(244)
+Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Map(15141, 5), _Player(width / 2, height / 2) , _fps(244)
 {
     SetTargetFPS(_fps);
     GameInitWindow();
@@ -9,7 +9,7 @@ Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Map(1
     _Map.CreateMap();
 }
 
-Game::Game(int height, int width, int seed) : _WinWidth(width), _WinHeight(height), _Map(seed, 4), _Player(width / 2, height / 2) , _fps(244)
+Game::Game(int height, int width, int seed) : _WinWidth(width), _WinHeight(height), _Map(seed, 5), _Player(width / 2, height / 2) , _fps(244)
 {
     SetTargetFPS(_fps);
     GameInitWindow();
@@ -56,13 +56,15 @@ bool Game::MainLoop(void)
     while (true)
     {
         if (IsKeyDown(KEY_ESCAPE))
-            break ;
-
+        break ;
+        
         BeginDrawing();
+        BeginMode2D(_Player.getCamera());
         ClearBackground(RAYWHITE);
+        _Map.DrawMap();
         _Player.Update();
         _Player.draw();
-        _Map.DrawMap();
+        EndMode2D();
         EndDrawing();
     }
     return true;
