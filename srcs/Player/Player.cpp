@@ -1,9 +1,12 @@
 #include "Player.hpp"
 
-Player::Player(float x, float y) : _x(x), _y(y), _scale(1.0f), _Camera(Vector2{0, 0})
+Player::Player(float x, float y) : _x(x), _y(y), _scale(126 / 126.0f), _Camera(Vector2{0, 0})
 {
 	_TileX = _x / 126;
 	_TileY = _y / 126;
+
+	_ChunkX = _TileX / 16;
+	_ChunkY = _TileY / 16;
 	loadTexture();
 }
 
@@ -87,4 +90,24 @@ int         Player::getTileX(void) const
 int         Player::getTileY(void) const
 {
 	return (_TileY);
+}
+
+int         Player::getChunkX(void) const
+{
+	return (_ChunkX);
+}
+
+int         Player::getChunkY(void) const
+{
+	return (_ChunkY);
+}
+
+void        Player::setChunkX(int x)
+{
+	_ChunkX = x;
+}
+
+void        Player::setChunkY(int y)
+{
+	_ChunkY = y;
 }

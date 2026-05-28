@@ -22,19 +22,15 @@ class Map
 
         void    CreateMap(int playerSpawnTileX, int playerSpawnTileY);
         void    DrawMap();
+        void    Update(int ChunkDiffX, int ChunkDiffY, int playerActualTileX, int playerActualTileY);
         void	InitTexture();
-
-        void    NewRowLeft(int playerSpawnTileX, int playerSpawnTileY);
-        void    NewRowRight();
-        void    NewLineTop();
-        void    NewLineBottom();
 
     private:
 
         int _OffsetX;
         int _OffsetY;
 
-        int _RenderDistance; // max 6?
+        int _RenderDistance;
         int _Seed;
 
         FastNoiseLite       _NoiseGenerator;
@@ -42,6 +38,10 @@ class Map
 
         std::vector<Texture2D>   _GroundTextures;
 
-        void   CreateChunk(int x, int y, const std::vector<float> &TileValues);
+        void    CreateChunk(int x, int y, const std::vector<float> &TileValues);
+        void    NewRowLeft(int playerActualTileX, int playerActualTileY);
+        void    NewRowRight(int playerActualTileX, int playerActualTileY);
+        void    NewLineTop(int playerActualTileX, int playerActualTileY);
+        void    NewLineBottom(int playerActualTileX, int playerActualTileY);
 
 };

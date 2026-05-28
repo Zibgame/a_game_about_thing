@@ -16,6 +16,7 @@ class Chunk
         void    SetTile(int x, int y, char biome, short obstacle);
         void    DrawChunk(std::vector<Texture2D> &_GroundTextures);
         
+        Chunk   &operator=( Chunk &other );
     private:
         
         int _ChunkX;

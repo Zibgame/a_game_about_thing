@@ -89,3 +89,16 @@ void    Chunk::DrawChunk(std::vector<Texture2D> &_GroundTextures)
         }
     }
 }
+
+Chunk   &Chunk::operator=( Chunk &other )
+{
+    if (this == &other)
+		return (*this);
+
+    this->_ChunkX = other._ChunkX;
+    this->_ChunkY = other._ChunkY;
+
+    this->_TileMap.assign(other._TileMap.begin(), other._TileMap.end());
+
+    return (*this);
+}

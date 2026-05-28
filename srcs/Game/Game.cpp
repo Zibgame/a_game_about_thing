@@ -1,13 +1,12 @@
 #include "Game.hpp"
 
-Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Map(15141, 5), _Player(0, 0) , _fps(244)
+Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Map(15141, 5), _Player(200, 200) , _fps(244)
 {
     SetTargetFPS(_fps);
     GameInitWindow();
     _Player.loadTexture();
     _Map.InitTexture();
     _Map.CreateMap(_Player.getTileX(), _Player.getTileY());
-    // _Player.Move(2.5 * CHUNK_SIZE * 126, 2.5 * CHUNK_SIZE * 126);
 }
 
 Game::Game(int height, int width, int seed) : _WinWidth(width), _WinHeight(height), _Map(seed, 5), _Player(width / 2, height / 2) , _fps(244)
@@ -62,8 +61,22 @@ bool Game::MainLoop(void)
         BeginDrawing();
         BeginMode2D(_Player.getCamera());
         ClearBackground(RAYWHITE);
-        _Map.DrawMap();
         _Player.Update();
+        if (_Player.getChunkX() != _Player.getTileX() / 16 || _Player.getChunkY() != _Player.getTileY() / 16)
+        {
+            int ChunkDiffX = _Player.getTileX() / 16 - _Player.getChunkX();
+            int ChunkDiffY = _Player.getTileY() / 16 - _Player.getChunkY();
+
+            _Player.setChunkX(_Player.getChunkX() + ChunkDiffX);
+            _Player.setChunkY(_Player.getChunkY() + ChunkDiffY);
+            _Map.Update(
+                ChunkDiffX,
+                ChunkDiffY,
+                _Player.getTileX(),
+                _Player.getTileY()
+            );
+        }
+        _Map.DrawMap();
         _Player.draw();
         EndMode2D();
         EndDrawing();

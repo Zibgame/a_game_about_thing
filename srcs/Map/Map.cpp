@@ -18,13 +18,13 @@ Map::~Map()
 // j'ai peur de cette fonction
 void    Map::CreateMap(int playerSpawnTileX, int playerSpawnTileY)
 {
-    int playerActualChunkX, playerActualChunkY;
+    int ChunkPosX, ChunkPosY;
     
-    playerActualChunkX = playerSpawnTileX / 16 - 2;
-    playerActualChunkY = playerSpawnTileY / 16 - 2;
-    for (int j = playerActualChunkY; j < playerActualChunkY + _RenderDistance; j++)
+    ChunkPosX = playerSpawnTileX / 16 - 2;
+    ChunkPosY = playerSpawnTileY / 16 - 2;
+    for (int j = ChunkPosY; j < ChunkPosY + _RenderDistance; j++)
     {
-        for (int i = playerActualChunkX; i < playerActualChunkX + _RenderDistance; i++)
+        for (int i = ChunkPosX; i < ChunkPosX + _RenderDistance; i++)
         {
             int lineSize = CHUNK_SIZE * _RenderDistance;
             std::vector<float> noiseData(lineSize * lineSize);
@@ -77,13 +77,60 @@ void	Map::InitTexture(void)
     _GroundTextures.push_back(LoadTexture("assets/Ground/Water.png"));
 }
 
-void    Map::NewRowLeft(int playerSpawnTileX, int playerSpawnTileY)
+void    Map:: Update(int ChunkDiffX, int ChunkDiffY, int playerActualTileX, int playerActualTileY)
 {
-    int playerActualChunkX, playerActualChunkY;
+    if (ChunkDiffX == -1)
+        NewRowLeft(playerActualTileX, playerActualTileY);
+    else if (ChunkDiffX == 1)
+        NewRowRight(playerActualTileX, playerActualTileY);
+    if (ChunkDiffY == 1)
+        NewLineBottom(playerActualTileX, playerActualTileY);
+    else if (ChunkDiffY == -1)
+        NewLineTop(playerActualTileX, playerActualTileY);
+
+}
+
+void    Map::NewRowLeft(int playerActualTileX, int playerActualTileY)
+{
+    int ChunkPosX, ChunkPosY;
     
-    playerActualChunkX = playerSpawnTileX / 16;
-    playerActualChunkY = playerSpawnTileY / 16;
-    for (int j = playerActualChunkY; j < playerActualChunkY + _RenderDistance; j++)
+    ChunkPosX = playerActualTileX / 16 - 2;
+    ChunkPosY = playerActualTileY / 16 - 2;
+    for (int j = ChunkPosY; j < ChunkPosY + _RenderDistance; j++)
+    {
+        int lineSize = CHUNK_SIZE * _RenderDistance;
+        std::vector<float> noiseData(lineSize * lineSize);
+        
+        for (int y = 0; y < CHUNK_SIZE; y++)
+        {
+            for (int x = 0; x < CHUNK_SIZE; x++)
+            {
+                noiseData[x + y * CHUNK_SIZE] = _NoiseGenerator.GetNoise((float)(x + 16 * ChunkPosX), (float)(y + 16 * j));
+            }
+        }
+        Chunk   *newChunk = new Chunk(ChunkPosX, j);
+        
+        for (int y = 0; y < CHUNK_SIZE; y++)
+        {
+            for (int x = 0; x < CHUNK_SIZE; x++)
+            {
+                Tile    *newTile = new Tile((char)((noiseData[y * CHUNK_SIZE + x] + 1) * 20), 0, (short)(((noiseData[y * CHUNK_SIZE + x] / 2 + 0.5) * 4)));
+                
+                newChunk->SetTile(x, y, newTile);
+            }
+        }
+        _Map.erase(_Map.begin()+(j - ChunkPosY) * _RenderDistance + _RenderDistance - 1);
+        _Map.insert(_Map.begin()+(j - ChunkPosY) * _RenderDistance, newChunk);
+    }
+}
+
+void    Map::NewRowRight(int playerActualTileX, int playerActualTileY)
+{
+    int ChunkPosX, ChunkPosY;
+    
+    ChunkPosX = playerActualTileX / 16 + 2;
+    ChunkPosY = playerActualTileY / 16 - 2;
+    for (int j = ChunkPosY; j < ChunkPosY + _RenderDistance; j++)
     {
         int lineSize = CHUNK_SIZE * _RenderDistance;
         std::vector<float> noiseData(lineSize * lineSize);
@@ -92,9 +139,90 @@ void    Map::NewRowLeft(int playerSpawnTileX, int playerSpawnTileY)
         {
             for (int x = 0; x < CHUNK_SIZE; x++)
             {
-                noiseData[x + y * CHUNK_SIZE] = _NoiseGenerator.GetNoise((float)(x + 16 * (playerActualChunkX - 2)), (float)(y + 16 * j));
+                noiseData[x + y * CHUNK_SIZE] = _NoiseGenerator.GetNoise((float)(x + 16 * ChunkPosX), (float)(y + 16 * j));
             }
         }
-        CreateChunk((playerActualChunkX - 2), j, noiseData);
+        Chunk   *newChunk = new Chunk(ChunkPosX, j);
+
+        for (int y = 0; y < CHUNK_SIZE; y++)
+        {
+            for (int x = 0; x < CHUNK_SIZE; x++)
+            {
+                Tile    *newTile = new Tile((char)((noiseData[y * CHUNK_SIZE + x] + 1) * 20), 0, (short)(((noiseData[y * CHUNK_SIZE + x] / 2 + 0.5) * 4)));
+
+                newChunk->SetTile(x, y, newTile);
+            }
+        }
+        _Map.erase(_Map.begin()+(j - ChunkPosY) * _RenderDistance);
+        _Map.insert(_Map.begin()+(j - ChunkPosY) * _RenderDistance + _RenderDistance - 1, newChunk);
+    }
+}
+
+void    Map::NewLineTop(int playerActualTileX, int playerActualTileY)
+{
+    int ChunkPosX, ChunkPosY;
+    
+    ChunkPosX = playerActualTileX / 16 - 2;
+    ChunkPosY = playerActualTileY / 16 - 2;
+    for (int i = ChunkPosX; i < ChunkPosX + _RenderDistance; i++)
+    {
+        int lineSize = CHUNK_SIZE * _RenderDistance;
+        std::vector<float> noiseData(lineSize * lineSize);
+    
+        for (int y = 0; y < CHUNK_SIZE; y++)
+        {
+            for (int x = 0; x < CHUNK_SIZE; x++)
+            {
+                noiseData[x + y * CHUNK_SIZE] = _NoiseGenerator.GetNoise((float)(x + 16 * i), (float)(y + 16 * ChunkPosY));
+            }
+        }
+        Chunk   *newChunk = new Chunk(i, ChunkPosY);
+
+        for (int y = 0; y < CHUNK_SIZE; y++)
+        {
+            for (int x = 0; x < CHUNK_SIZE; x++)
+            {
+                Tile    *newTile = new Tile((char)((noiseData[y * CHUNK_SIZE + x] + 1) * 20), 0, (short)(((noiseData[y * CHUNK_SIZE + x] / 2 + 0.5) * 4)));
+
+                newChunk->SetTile(x, y, newTile);
+            }
+        }
+        _Map.erase(_Map.begin()+(i - ChunkPosX) + (_RenderDistance - 1) * _RenderDistance);
+        _Map.insert(_Map.begin()+(i - ChunkPosX), newChunk);
+    }
+}
+void    Map::NewLineBottom(int playerActualTileX, int playerActualTileY)
+{
+    int ChunkPosX, ChunkPosY;
+    
+    ChunkPosX = playerActualTileX / 16 - 2;
+    ChunkPosY = playerActualTileY / 16 + 2;
+    for (int i = 0; i < 5; i++)
+        _Map.erase(_Map.begin());
+    for (int i = ChunkPosX; i < ChunkPosX + _RenderDistance; i++)
+    {
+        int lineSize = CHUNK_SIZE * _RenderDistance;
+        std::vector<float> noiseData(lineSize * lineSize);
+    
+        for (int y = 0; y < CHUNK_SIZE; y++)
+        {
+            for (int x = 0; x < CHUNK_SIZE; x++)
+            {
+                noiseData[x + y * CHUNK_SIZE] = _NoiseGenerator.GetNoise((float)(x + 16 * i), (float)(y + 16 * ChunkPosY));
+            }
+        }
+        Chunk   *newChunk = new Chunk(i, ChunkPosY);
+
+        for (int y = 0; y < CHUNK_SIZE; y++)
+        {
+            for (int x = 0; x < CHUNK_SIZE; x++)
+            {
+                Tile    *newTile = new Tile((char)((noiseData[y * CHUNK_SIZE + x] + 1) * 20), 0, (short)(((noiseData[y * CHUNK_SIZE + x] / 2 + 0.5) * 4)));
+
+                newChunk->SetTile(x, y, newTile);
+            }
+        }
+        // _Map.erase(_Map.begin()+(i - ChunkPosX));
+        _Map.push_back(newChunk);
     }
 }
