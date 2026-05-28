@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Map(1337, 4), _Player(width / 2, height / 2) , _fps(244)
+Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Map(15141, 6), _Player(width / 2, height / 2) , _fps(244)
 {
     SetTargetFPS(_fps);
     GameInitWindow();

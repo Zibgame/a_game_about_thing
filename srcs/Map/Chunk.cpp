@@ -59,6 +59,8 @@ void    Chunk::DrawChunk(int startX, int startY, std::vector<Texture2D> &_Ground
             int Id = _TileMap[y * CHUNK_SIZE + x]->TextureId;
             int Scale = _TileMap[y * CHUNK_SIZE + x]->Scale;
 
+            if (Id > 3)
+                std::cout << Id << "\n";
             if (!_GroundTextures[Id].id)
                 return ;
             Rectangle	src;
@@ -70,8 +72,8 @@ void    Chunk::DrawChunk(int startX, int startY, std::vector<Texture2D> &_Ground
             src.width = _GroundTextures[Id].width;
             src.height = _GroundTextures[Id].height;
 
-            dest.x = x * 16;
-            dest.y = y * 16;
+            dest.x = x * 8 + startX;
+            dest.y = y * 8 + startY;
             dest.width = _GroundTextures[Id].width * Scale;
             dest.height = _GroundTextures[Id].height * Scale;
 
