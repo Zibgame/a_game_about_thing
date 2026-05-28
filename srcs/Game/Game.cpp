@@ -5,6 +5,7 @@ Game::Game(int width, int height) : _WinWidth(width), _WinHeight(height), _Map(1
     SetTargetFPS(_fps);
     GameInitWindow();
     _Player.loadTexture();
+    _Map.InitTexture();
     _Map.CreateMap();
 }
 
@@ -13,6 +14,7 @@ Game::Game(int height, int width, int seed) : _WinWidth(width), _WinHeight(heigh
     SetTargetFPS(_fps);
     GameInitWindow();
     _Player.loadTexture();
+    _Map.CreateMap();
 }
 
 Game::~Game(void)
@@ -60,6 +62,7 @@ bool Game::MainLoop(void)
         ClearBackground(RAYWHITE);
         _Player.Update();
         _Player.draw();
+        _Map.DrawMap();
         EndDrawing();
     }
     return true;
