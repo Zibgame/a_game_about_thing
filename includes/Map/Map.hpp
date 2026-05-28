@@ -20,7 +20,7 @@ class Map
         Map(int seed, int renderDistance);
         ~Map();
 
-        void    CreateMap();
+        void    CreateMap(int playerSpawnTileX, int playerSpawnTileY);
         void    DrawMap();
         void	InitTexture();
 

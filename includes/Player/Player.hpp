@@ -10,6 +10,8 @@ class Player
 {
     public:
         Player(float x, float y);
+        int         getTileX(void) const;
+        int         getTileY(void) const;
         void	    draw() const;
         void	    loadTexture();
         void	    Move(float x, float y);
@@ -18,8 +20,8 @@ class Player
         ~Player();
 
     private:
-        int     _ChunkX;
-        int     _ChunkY;
+        int     _TileX;
+        int     _TileY;
 
         float  _x;
         float  _y;

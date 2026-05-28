@@ -16,11 +16,15 @@ Map::~Map()
 }
 
 // j'ai peur de cette fonction
-void    Map::CreateMap(void)
+void    Map::CreateMap(int playerSpawnTileX, int playerSpawnTileY)
 {
-    for (int j = 0; j < _RenderDistance; j++)
+    int playerActualChunkX, playerActualChunkY;
+    
+    playerActualChunkX = playerSpawnTileX / 16;
+    playerActualChunkY = playerSpawnTileY / 16;
+    for (int j = playerActualChunkY; j < playerActualChunkY + _RenderDistance; j++)
     {
-        for (int i = 0; i < _RenderDistance; i++)
+        for (int i = playerActualChunkX; i < playerActualChunkX + _RenderDistance; i++)
         {
             int lineSize = CHUNK_SIZE * _RenderDistance;
             std::vector<float> noiseData(lineSize * lineSize);
@@ -36,7 +40,6 @@ void    Map::CreateMap(void)
 
         }
     }
-
 }
 void    Map::DrawMap(void)
 {

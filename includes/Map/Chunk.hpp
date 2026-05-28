@@ -18,6 +18,8 @@ class Chunk
         
     private:
         
+        int ChunkX;
+        int ChunkY;
         std::vector<Tile *>   _TileMap;
 
 };

@@ -2,7 +2,9 @@
 
 Player::Player(float x, float y) : _x(x), _y(y), _scale(1.0f), _Camera(Vector2{0, 0})
 {
-	_texture = LoadTexture("assets/Player/player.png");
+	_TileX = _x / 126;
+	_TileY = _y / 126;
+	loadTexture();
 }
 
 void	Player::loadTexture()
@@ -73,4 +75,14 @@ void    Player::Update(void)
 		Move(0, -SPEED * delta);
 	if (IsKeyDown(KEY_S))
 		Move(0, SPEED * delta);
+}
+
+int         Player::getTileX(void) const
+{
+	return (_TileX);
+}
+
+int         Player::getTileY(void) const
+{
+	return (_TileY);
 }
