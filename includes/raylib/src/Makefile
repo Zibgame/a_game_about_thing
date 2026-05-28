@@ -303,8 +303,14 @@ endif
 
 # Define default C compiler and archiver to pack library: CC, AR
 #------------------------------------------------------------------------------------------------
-CC = gcc
-AR = ar
+
+ifeq ($(OS),Windows_NT)
+    CC = D:/Other/MSYS2/ucrt64/bin/gcc.exe
+    AR = D:/Other/MSYS2/ucrt64/bin/ar.exe
+else
+    CC = gcc
+    AR = ar
+endif
 
 ifeq ($(TARGET_PLATFORM),PLATFORM_DESKTOP_GLFW)
     ifeq ($(PLATFORM_OS),OSX)
